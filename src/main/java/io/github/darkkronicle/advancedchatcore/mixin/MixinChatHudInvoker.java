@@ -8,6 +8,7 @@
 package io.github.darkkronicle.advancedchatcore.mixin;
 
 import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
@@ -17,6 +18,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ChatHud.class)
 public interface MixinChatHudInvoker {
-    @Invoker
-    void invokeAddMessage(Text message, @Nullable MessageSignatureData signature, int ticks, @Nullable MessageIndicator indicator, boolean refresh);
+	@Invoker
+	void invokeAddMessage(ChatHudLine line);
+
+	@Invoker
+	void invokeLogChatMessage(ChatHudLine line);
+
+	@Invoker
+	void invokeAddVisibleMessage(ChatHudLine line);
 }

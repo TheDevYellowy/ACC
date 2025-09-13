@@ -48,10 +48,11 @@ public class MessageSender {
         if (string.length() > 256) {
             string = string.substring(0, 256);
         }
+				AdvancedChatCore.LOGGER.log(Level.INFO, "Attempting to send message. {}", unfiltered);
         this.client.inGameHud.getChatHud().addToMessageHistory(unfiltered);
 
-        if (string.length() == 0) {
-            AdvancedChatCore.LOGGER.log(Level.WARN, "Blank message was attempted to be sent. " + unfiltered);
+        if (string.isEmpty()) {
+            AdvancedChatCore.LOGGER.log(Level.WARN, "Blank message was attempted to be sent. {}", unfiltered);
             return;
         }
 

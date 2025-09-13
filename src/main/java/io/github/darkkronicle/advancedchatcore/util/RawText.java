@@ -15,7 +15,7 @@ public record RawText(String content, Style style) implements Text {
 
     @Override
     public TextContent getContent() {
-        return new LiteralTextContent(content);
+        return of(content).getContent();
     }
 
     @Override

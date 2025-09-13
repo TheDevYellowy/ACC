@@ -1,28 +1,34 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.11-SNAPSHOT'
 	id 'maven-publish'
-	id "io.freefair.lombok" version "6.0.0-m2"
+	id "io.freefair.lombok" version "8.14.2"
 }
 
-apply from: 'https://raw.githubusercontent.com/DarkKronicle/GradleScripts/main/gradle/publish.gradle'
+//apply from: 'https://raw.githubusercontent.com/DarkKronicle/GradleScripts/main/gradle/publish.gradle'
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+//sourceCompatibility = JavaVersion.VERSION_17
+//targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+//archivesBaseName = project.archives_base_name
 version = "${project.minecraft_version}-${project.mod_version}"
 group = project.maven_group
 
-Properties additionalProperties = new Properties()
-if (file("extra.properties").exists()) {
-	additionalProperties.load(file("extra.properties").newReader())
-}
+//Properties additionalProperties = new Properties()
+//if (file("extra.properties").exists()) {
+//	additionalProperties.load(file("extra.properties").newReader())
+//}
 
 repositories {
 	mavenCentral()
 	maven { url 'https://masa.dy.fi/maven' }
     maven { url 'https://maven.terraformersmc.com/releases/' }
 	maven { url 'https://jitpack.io' }
+    maven { url 'https://api.modrinth.com/maven'}
 }
 
 dependencies {
@@ -30,7 +36,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "fi.dy.masa.malilib:malilib-fabric-1.19.4:${project.malilib_version}"
+	modImplementation "maven.modrinth:malilib:${project.malilib_version}"
 	modCompileOnly "com.terraformersmc:modmenu:5.0.1"
 
 	implementation "com.github.DarkKronicle.Konstruct:addons:${project.konstruct_version}"
@@ -53,7 +59,6 @@ dependencies {
 
 	implementation 'org.apache.commons:commons-csv:1.8'
 	include 'org.apache.commons:commons-csv:1.8'
-
 }
 
 processResources {
@@ -66,13 +71,13 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
-	it.options.release = 17
+	it.options.release = 21
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
-}
+//task sourcesJar(type: Jar, dependsOn: classes) {
+//	classifier = "sources"
+//	from sourceSets.main.allSource
+//}
 
 jar {
 	from "LICENSE.txt"
@@ -85,27 +90,27 @@ tasks.register('downloadExtra') {
 	}
 }
 
-assemble {
-	dependsOn 'downloadExtra'
-}
+//assemble {
+//	dependsOn 'downloadExtra'
+//}
 
 // configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-		}
-	}
-
-	// select the repositories you want to publish to
-	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
-	}
-}
+//publishing {
+//	publications {
+//		mavenJava(MavenPublication) {
+//			// add all the jars that should be included when publishing to maven
+//			artifact(remapJar) {
+//				builtBy remapJar
+//			}
+//			artifact(sourcesJar) {
+//				builtBy remapSourcesJar
+//			}
+//		}
+//	}
+//
+//	// select the repositories you want to publish to
+//	repositories {
+//		// uncomment to publish to the local maven
+//		// mavenLocal()
+//	}
+//}
