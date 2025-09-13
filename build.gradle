@@ -74,10 +74,10 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
 }
 
-//task sourcesJar(type: Jar, dependsOn: classes) {
-//	classifier = "sources"
-//	from sourceSets.main.allSource
-//}
+tasks.register('sourcesJar', Jar) {
+    dependsOn classes
+    from sourceSets.main.allSource
+}
 
 jar {
 	from "LICENSE.txt"
@@ -95,22 +95,22 @@ tasks.register('downloadExtra') {
 //}
 
 // configure the maven publication
-//publishing {
-//	publications {
-//		mavenJava(MavenPublication) {
-//			// add all the jars that should be included when publishing to maven
-//			artifact(remapJar) {
-//				builtBy remapJar
-//			}
-//			artifact(sourcesJar) {
-//				builtBy remapSourcesJar
-//			}
-//		}
-//	}
-//
-//	// select the repositories you want to publish to
-//	repositories {
-//		// uncomment to publish to the local maven
-//		// mavenLocal()
-//	}
-//}
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			// add all the jars that should be included when publishing to maven
+			artifact(remapJar) {
+				builtBy remapJar
+			}
+			artifact(sourcesJar) {
+				builtBy remapSourcesJar
+			}
+		}
+	}
+
+	// select the repositories you want to publish to
+	repositories {
+		// uncomment to publish to the local maven
+		 mavenLocal()
+	}
+}
