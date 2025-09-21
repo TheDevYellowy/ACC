@@ -115,11 +115,6 @@ public class AdvancedChatScreen extends GuiBase {
 
     public void initGui() {
         super.initGui();
-
-				for (AdvancedChatScreenSection section : sections) {
-					AdvancedChatCore.LOGGER.info(section.getClass().getName());
-				}
-
         this.rightSideButtons.clear();
         this.leftSideButtons.clear();
         resetCurrentMessage();
@@ -399,8 +394,12 @@ public class AdvancedChatScreen extends GuiBase {
         this.chatField.render(context, mouseX, mouseY, partialTicks);
         super.render(context, mouseX, mouseY, partialTicks);
         for (AdvancedChatScreenSection section : sections) {
-            section.render(context, mouseX, mouseY, partialTicks);
-        }
+					try {
+						section.render(context, mouseX, mouseY, partialTicks);
+					} catch (Exception e) {
+						AdvancedChatCore.LOGGER.error("Error running .render on {} {}", section.getClass().getName(), e);
+					}
+				}
 //        Style style = hud.getTextStyleAt(mouseX, mouseY);
 //        if (style != null && style.getHoverEvent() != null) {
 //					HoverEvent event = style.getHoverEvent();
